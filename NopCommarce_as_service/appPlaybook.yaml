@@ -1,8 +1,11 @@
 ---
-- name: Deploy NopCommarce Application
+- name: Deploy NopCommarce Application  
   become: yes
-  hosts: webside                                        # This Playbook will only work on Ubuntu OS
+  hosts: webside                                    # This Playbook will only work on Ubuntu OS
+  vars_files:
+    - group_vars/app.yaml
   tasks:
+  
     - name: Install Dotnet and Other Package in Ubuntu
       ansible.builtin.apt:
         name: "{{ item }}"
@@ -20,7 +23,7 @@
         src: "{{ url }}"
         remote_src: true
         owner: "{{ nop }}"
-        group: "{{ nop }}"
+        group: "{{ nop }}"  
 
     - name: copy the service
       ansible.builtin.template:
