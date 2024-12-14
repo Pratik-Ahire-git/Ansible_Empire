@@ -5,13 +5,23 @@
   vars_files:
     - group_vars/app.yaml
   tasks:
-  
+    # Install in ubuntu OS
     - name: Install Dotnet and Other Package in Ubuntu
       ansible.builtin.apt:
         name: "{{ item }}"
         state: present
         update_cache: yes
       loop: "{{ packages }}"
+      when: ansible_facts['os_family'] == "Ubuntu"
+    # Install in RedHat OS 
+    - name: Install Dotnet and Other Package in RedHat
+      ansible.builtin.dnf:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop: "{{ packages }}"
+      when: ansible_facts['os_family']  ==  "RedHat"
+      
 
     - name: Create User and Directory Permission
       ansible.builtin.user:

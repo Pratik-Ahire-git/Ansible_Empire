@@ -1,6 +1,7 @@
 packages:
   - dotnet-sdk-8.0
   - unzip
+  - wget
 
 user: nop
 
