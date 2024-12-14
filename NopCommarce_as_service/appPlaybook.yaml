@@ -8,7 +8,7 @@
         name: "{{ item }}"
         state: present
         update_cache: yes
-      loop: "{{ package }}"
+      loop: "{{ packages }}"
 
     - name: Create User and Directory Permission
       ansible.builtin.user:
