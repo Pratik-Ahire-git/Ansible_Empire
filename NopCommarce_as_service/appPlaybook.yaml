@@ -8,34 +8,35 @@
         name: "{{ item }}"
         state: present
         update_cache: yes
-      loop:
-        - dotnet-sdk-8.0
-        - unzip
+      loop: "{{ package }}"
+
     - name: Create User and Directory Permission
       ansible.builtin.user:
-        name: nop
-        home: /var/lib/nopCommerce
+        name: "{{ user }}"
+        home: "{{ home_dir }}"
+
     - name: Download and unzip the Package
       ansible.builtin.unarchive:
-        src: https://github.com/nopSolutions/nopCommerce/releases/download/release-4.70.5/nopCommerce_4.70.5_NoSource_linux_x64.zip
-        dest: /var/lib/nopCommerce
+        src: "{{ url }}"
         remote_src: true
-        owner: nop
-        group: nop
+        owner: "{{ nop }}"
+        group: "{{ nop }}"
+
     - name: copy the service
       ansible.builtin.template:
-        src: nopCommerce.service.j2
-        dest: /etc/systemd/system/nopCommerce.service
+        src: "{{ service_file }}"
+        dest: "{{ service_file_path }}"
       notify:
         - enable and start nopCommerce service
+
     - name: ensure service is runnning
       ansible.builtin.systemd_service:
-        name: nopCommerce
+        name: "{{ service_name }}"
         state: started
   handlers:
     - name: enable and start nopCommerce service
       ansible.builtin.systemd_service:
-        name: nopCommerce
+        name: "{{ service_name }}"
         daemon_reload: yes
         enabled: yes
         state: restarted
