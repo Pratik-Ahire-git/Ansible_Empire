@@ -6,7 +6,7 @@
       - group_vars/app.yaml
     tasks:
       # Install in ubuntu
-      - name: install dotnet sdk and other packages
+      - name: Install Dotnet and Other Packages in Ubuntu
         ansible.builtin.apt:
           name: "{{ item }}"
           update_cache: yes
@@ -23,7 +23,7 @@
         loop: "{{ packages }}"
         when: ansible_facts['distribution'] == 'RedHat'
   
-      - name: create a nop user
+      - name: Create a user and Home dir for user
         ansible.builtin.user:
           name: "{{ user }}"
           home: "{{ home_dir }}"
@@ -60,6 +60,4 @@
           daemon_reload: yes
           enabled: yes
           state: restarted
-  
-  
-  
+
